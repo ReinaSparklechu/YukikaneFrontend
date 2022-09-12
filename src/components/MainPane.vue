@@ -1,12 +1,12 @@
 <template>
   <div>
     <div id="Header">
-      {{outlet.address}}
+      {{props.outlet.address}}
     </div>
     <div id = "mainbody">
       <button @click="goLeft">Left</button>
       <div id="menuArea">
-        <order-card v-for="Item of menu.offerings" :key="Item.id" :name ="Item.name" :desc = "Item.desc"></order-card>
+        <order-card v-for="Item of display.slice(startIndex,endIndex)" :key="Item.id" :name ="Item.name" :desc = "Item.desc"></order-card>
       </div>
       <button @click="goRight">Right</button>
     </div>
@@ -14,23 +14,31 @@
 </template>
 
 <script setup>
-import {defineProps, ref} from "vue";
+import {computed, defineProps, ref, toRefs} from "vue";
 import OrderCard from "@/components/OrderCard";
-defineProps(
+
+const props = defineProps(
     {outlet:Object,
-  menu:[]});
+  menu:Object});
+
 const startIndex = ref(0);
 const endIndex = ref(4);
+const {menu} = toRefs(props);
 function goRight(){
   startIndex.value+=4;
   endIndex.value +=4;
   console.log(startIndex, endIndex);
 }
+
 function goLeft(){
   startIndex.value-=4;
   endIndex.value-=4;
   console.log(startIndex, endIndex);
 }
+const display = computed(() => {
+  console.log(menu.value.offerings)
+  return menu.value.offerings;
+})
 </script>
 
 <style scoped>
@@ -73,9 +81,10 @@ function goLeft(){
   width: 100%;
   max-width: 100%;
   max-height: 90vh;
+  height: 90vh;
   flex-direction: row;
   flex-wrap: wrap;
-  align-content: space-between;
+  align-content: space-around;
   justify-content: center;
   overflow: clip;
 }
