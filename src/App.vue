@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id = "Main">
+    <sidebar></sidebar>
+    <Mainpane :outlet="outlet" :menu="menu"></Mainpane>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+import {onMounted, ref} from "vue";
+import axios from 'axios'
+import sidebar from "@/components/Sidebar";
+import Mainpane from"@/components/MainPane"
+
+const outlet = ref({});
+const menu  = ref({});
+onMounted(() =>{axios.get("http://localhost:8080/outlet/Baker_St_123").then(
+    response =>{(outlet.value = response.data);
+      console.log(response.data)
+    menu.value = response.data.menu;
+    })});
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*{
+  margin: 0;
+}
+#Main{
+  display: flex;
+  flex-direction: row;;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 </style>
