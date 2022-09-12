@@ -36,8 +36,11 @@ function goLeft(){
   console.log(startIndex, endIndex);
 }
 const display = computed(() => {
-  console.log(menu.value.offerings)
-  return menu.value.offerings;
+  var array = menu.value.offerings;
+  if(array!== undefined){
+    return array;
+  }
+  return [];
 })
 </script>
 
