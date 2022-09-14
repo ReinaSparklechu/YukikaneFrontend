@@ -4,21 +4,35 @@
   <div class="image"><img src="@/assets/coffee.png" alt="" srcset=""></div>
   <div class="desc">{{desc}}</div>
   <div id="footer">
-    <button @click="amount>0? amount--:'' ">-</button>
+    <button @click="decrease">-</button>
     <p class="amt">{{amount}}</p>
-    <button @click="amount++">+</button>
+    <button @click="increase">+</button>
   </div>
 </div>
 </template>
 
 <script setup>
-import {defineProps, ref} from "vue";
+import {defineProps, ref, defineEmits} from "vue";
 
 defineProps({
   name:String,
   desc:String
 })
 const amount = ref(0);
+const emit = defineEmits(['increase','decrease']);
+function increase(){
+  amount.value++;
+  emit('increase');
+}
+function decrease(){
+  if(amount.value <=0) {
+    return;
+  }
+  else {
+    amount.value--;
+    emit('decrease')
+  }
+}
 </script>
 
 <style scoped>

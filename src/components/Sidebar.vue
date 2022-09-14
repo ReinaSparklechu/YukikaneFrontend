@@ -3,6 +3,9 @@
   <button>All</button>
   <button>Drinks</button>
   <button>Dessert</button>
+  <div id="order">
+    <div id="orderHeader">Items</div>
+  </div>
 </div>
 </template>
 
@@ -41,5 +44,19 @@ button{
 }
 button:hover{
   border-radius: 20px;
+}
+#order{
+  border: 2px solid #524459;
+  min-height: 40%;
+  margin: 0;
+  min-width: 85%;
+  padding: 10px;
+  border-radius: 5px;
+}
+#orderHeader{
+  border-bottom: 4px solid #524459;
+  width: 100%;
+  font-weight: bold;
+  color: #F7D1CD;
 }
 </style>

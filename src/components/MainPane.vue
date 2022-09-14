@@ -6,7 +6,12 @@
     <div id = "mainbody">
       <button @click="goLeft">Left</button>
       <div id="menuArea">
-        <order-card v-for="Item of display.slice(startIndex,endIndex)" :key="Item.id" :name ="Item.name" :desc = "Item.desc"></order-card>
+        <order-card v-for="Item of display.slice(startIndex,endIndex)"
+                    :key="Item.id"
+                    :name ="Item.name"
+                    :desc = "Item.desc"
+                    @increase="push(Item.name)"
+                    @decrease="remove(Item.name)"></order-card>
       </div>
       <button @click="goRight">Right</button>
     </div>
@@ -29,7 +34,20 @@ function goRight(){
   endIndex.value +=4;
   console.log(startIndex, endIndex);
 }
-
+const order = {
+  items:[],
+}
+function push(name) {
+  order.items.push(name);
+  console.log(order.items);
+}
+function remove(name){
+  if(order.items.includes(name)) {
+    const index = order.items.indexOf(name);
+    order.items.splice(index,1);
+  }
+  console.log(order.items);
+}
 function goLeft(){
   startIndex.value-=4;
   endIndex.value-=4;
