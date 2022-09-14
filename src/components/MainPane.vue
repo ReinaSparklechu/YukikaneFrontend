@@ -19,34 +19,35 @@
 </template>
 
 <script setup>
-import {computed, defineProps, ref, toRefs} from "vue";
+import {computed, defineProps, ref, toRefs,defineEmits} from "vue";
 import OrderCard from "@/components/OrderCard";
 
 const props = defineProps(
     {outlet:Object,
-  menu:Object});
+  menu:Object,
+    orders:[]});
 
 const startIndex = ref(0);
 const endIndex = ref(4);
-const {menu} = toRefs(props);
+const {menu, orders} = toRefs(props);
 function goRight(){
   startIndex.value+=4;
   endIndex.value +=4;
   console.log(startIndex, endIndex);
 }
-const order = {
-  items:[],
-}
+const emits = defineEmits('updateOrder');
 function push(name) {
-  order.items.push(name);
-  console.log(order.items);
+  orders.value.push(name);
+  console.log(orders.value);
+  emits('updateOrder');
 }
 function remove(name){
-  if(order.items.includes(name)) {
-    const index = order.items.indexOf(name);
-    order.items.splice(index,1);
+  if(orders.value.includes(name)) {
+    const index = orders.value.indexOf(name);
+    orders.value.splice(index,1);
   }
-  console.log(order.items);
+  console.log(orders.value);
+  emits('updateOrder');
 }
 function goLeft(){
   startIndex.value-=4;

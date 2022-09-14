@@ -1,7 +1,7 @@
 <template>
     <div id = "Main">
-    <sidebar></sidebar>
-    <Mainpane :outlet="outlet" :menu="menu"></Mainpane>
+    <sidebar :orders="orders"></sidebar>
+    <Mainpane :outlet="outlet" :menu="menu" :orders="orders" @updateOrder="readOrders"></Mainpane>
   </div>
 </template>
 
@@ -14,11 +14,15 @@ import Mainpane from"@/components/MainPane"
 
 const outlet = ref({});
 const menu  = ref({});
+const orders = ref([]);
 onMounted(() =>{axios.get("http://localhost:8080/outlet/Baker_St_123").then(
     response =>{(outlet.value = response.data);
       console.log(response.data)
     menu.value = response.data.menu;
     })});
+function readOrders(){
+  console.log(orders);
+}
 </script>
 
 <style>

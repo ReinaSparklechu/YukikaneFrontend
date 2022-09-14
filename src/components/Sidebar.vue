@@ -5,13 +5,49 @@
   <button>Dessert</button>
   <div id="order">
     <div id="orderHeader">Items</div>
+    <div v-for="item in itemList" :key="item.name">{{item.name}}&ensp;{{item.value}}</div>
   </div>
 </div>
 </template>
 
 <script>
+
 export default {
-  name: "Side-bar"
+  name: "Side-bar",
+  props: {
+    orders:[]
+  },
+  computed:{
+    itemList(){
+      if(!this.orders){
+        console.log("computing item list")
+        console.log(this.orders)
+        return[];
+      }else{
+        var items = [];
+        // eslint-disable-next-line vue/no-mutating-props
+        var sorted = Array.from(this.orders).sort();
+        while(sorted.length >0) {
+          const item = sorted.pop();
+          console.log(item);
+          var found = false;
+          items.forEach(entry => {
+            if(entry.name == item) {
+              entry.value++;
+              found = true;
+            }
+          });
+          if(!found) {
+            items.push({name:item, value:1});
+          }
+        }
+        return items;
+      }
+    }
+  },
+  watch:{
+
+  }
 }
 </script>
 
