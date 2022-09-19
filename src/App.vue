@@ -1,7 +1,7 @@
 <template>
     <div id = "Main">
-    <sidebar :orders="orders"></sidebar>
-    <Mainpane :outlet="outlet" :menu="menu" :orders="orders" @updateOrder="readOrders"></Mainpane>
+    <sidebar :orders="orders" @sendOrder ="sendOrders"></sidebar>
+    <Mainpane :outlet="outlet" :menu="menu" :orders="orders" @updateOrder="readOrders" ></Mainpane>
   </div>
 </template>
 
@@ -22,6 +22,19 @@ onMounted(() =>{axios.get("http://localhost:8080/outlet/Baker_St_123").then(
     })});
 function readOrders(){
   console.log(orders);
+}
+
+const order = ref({
+  User: "",
+  items:orders,
+  timestamp:undefined,
+  outlet:outlet
+})
+function sendOrders() {
+  console.log("Sending!")
+  order.value.timestamp=Date.now();
+  console.log(order)
+  axios.post("http://localhost:8080/order", order.value).then(res => console.log(res));
 }
 </script>
 
