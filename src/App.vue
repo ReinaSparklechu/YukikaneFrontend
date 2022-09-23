@@ -25,16 +25,35 @@ function readOrders(){
 }
 
 const order = ref({
-  User: "",
-  items:orders,
-  timestamp:undefined,
-  outlet:outlet
+    id: null,
+    placedBy: null,
+    items: orders,
+    placedAt :undefined,
+    outlet: outlet
+
 })
 function sendOrders() {
   console.log("Sending!")
-  order.value.timestamp=Date.now();
+  var obj = {};
+  obj['id'] = 1;
   console.log(order)
-  axios.post("http://localhost:8080/order", order.value).then(res => console.log(res));
+  const result = axios( {
+    method: 'post',
+    url: 'http://localhost:8080/order',
+    data: {
+
+    },
+    params: {
+        order: {
+          id: null,
+          placedBy: null,
+          items: order.value.items,
+          placedAt: Date.now(),
+          outlet: null
+        }
+    },
+  })
+  console.log(result)
 }
 </script>
 
