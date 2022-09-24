@@ -41,16 +41,8 @@ function sendOrders() {
     method: 'post',
     url: 'http://localhost:8080/order',
     data: {
-
-    },
-    params: {
-        order: {
-          id: null,
-          placedBy: null,
-          items: order.value.items,
-          placedAt: Date.now(),
-          outlet: null
-        }
+      "order":["order", "order"],
+      "qty": [1,2,3]
     },
   })
   console.log(result)
