@@ -27,9 +27,9 @@ function readOrders(){
 const order = ref({
     id: null,
     placedBy: null,
-    items: orders,
+    items: orders.value,
     placedAt :undefined,
-    outlet: outlet
+    outlet: outlet.value
 
 })
 function sendOrders() {
@@ -37,14 +37,7 @@ function sendOrders() {
   var obj = {};
   obj['id'] = 1;
   console.log(order)
-  const result = axios( {
-    method: 'post',
-    url: 'http://localhost:8080/order',
-    data: {
-      "order":["order", "order"],
-      "qty": [1,2,3]
-    },
-  })
+  const result = axios.post("http://localhost:8080/order", order.value, {headers:{'Content-Type':'application/json; charset=utf-8'}})
   console.log(result)
 }
 </script>
