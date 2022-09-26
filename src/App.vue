@@ -34,8 +34,7 @@ const order = ref({
 })
 function sendOrders() {
   console.log("Sending!")
-  var obj = {};
-  obj['id'] = 1;
+  order.value.placedAt = Date.now();
   console.log(order)
   const result = axios.post("http://localhost:8080/order", order.value, {headers:{'Content-Type':'application/json; charset=utf-8'}})
   console.log(result)
