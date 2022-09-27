@@ -7,7 +7,7 @@
 
 <script setup>
 
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import axios from 'axios'
 import sidebar from "@/components/Sidebar";
 import Mainpane from"@/components/MainPane"
@@ -15,11 +15,19 @@ import Mainpane from"@/components/MainPane"
 const outlet = ref({});
 const menu  = ref({});
 const orders = ref([]);
+const addr = computed(() =>{
+  if(outlet.value === null) {
+    return "";
+  } else{
+    return outlet.value.address;
+  }
+})
 onMounted(() =>{axios.get("http://localhost:8080/outlet/Baker_St_123").then(
     response =>{(outlet.value = response.data);
       console.log(response.data)
     menu.value = response.data.menu;
     })});
+
 function readOrders(){
   console.log(orders);
 }
@@ -29,12 +37,11 @@ const order = ref({
     placedBy: null,
     items: orders.value,
     placedAt :undefined,
-    outlet: outlet.value
+    'outletAddr': addr
 
 })
 function sendOrders() {
   console.log("Sending!")
-  order.value.placedAt = Date.now();
   console.log(order)
   const result = axios.post("http://localhost:8080/order", order.value, {headers:{'Content-Type':'application/json; charset=utf-8'}})
   console.log(result)
