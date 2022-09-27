@@ -1,8 +1,9 @@
 <template>
-    <div id = "Main">
+  <div v-if="!sent" id = "Main">
     <sidebar :orders="orders" @sendOrder ="sendOrders"></sidebar>
     <Mainpane :outlet="outlet" :menu="menu" :orders="orders" @updateOrder="readOrders" ></Mainpane>
   </div>
+  <OrderPlaced v-else></OrderPlaced>
 </template>
 
 <script setup>
@@ -11,6 +12,7 @@ import {computed, onMounted, ref} from "vue";
 import axios from 'axios'
 import sidebar from "@/components/Sidebar";
 import Mainpane from"@/components/MainPane"
+import OrderPlaced from "@/components/OrderPlaced"
 
 const outlet = ref({});
 const menu  = ref({});
@@ -22,6 +24,7 @@ const addr = computed(() =>{
     return outlet.value.address;
   }
 })
+const sent = ref(false);
 onMounted(() =>{axios.get("http://localhost:8080/outlet/Baker_St_123").then(
     response =>{(outlet.value = response.data);
       console.log(response.data)
@@ -43,7 +46,11 @@ const order = ref({
 function sendOrders() {
   console.log("Sending!")
   console.log(order)
-  const result = axios.post("http://localhost:8080/order", order.value, {headers:{'Content-Type':'application/json; charset=utf-8'}})
+  const result = axios.post("http://localhost:8080/order", order.value, {headers:{'Content-Type':'application/json; charset=utf-8'}}).then(res => {
+    if(res.status === 200) {
+      sent.value = true;
+    }
+  })
   console.log(result)
 }
 </script>
