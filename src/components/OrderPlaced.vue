@@ -2,13 +2,18 @@
   <div class="main">
     <div id="inner_box">
       Order has been placed!
-      <button>Place another order</button>
+      <button @click="newOrder">Place another order</button>
     </div>
   </div>
 </template>
 
 <script setup>
+import {defineEmits} from "vue";
 
+const emits = defineEmits('newOrder');
+function newOrder() {
+  emits('newOrder');
+}
 </script>
 
 <style scoped>

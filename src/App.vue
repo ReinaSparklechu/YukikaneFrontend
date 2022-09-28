@@ -3,7 +3,7 @@
     <sidebar :orders="orders" @sendOrder ="sendOrders"></sidebar>
     <Mainpane :outlet="outlet" :menu="menu" :orders="orders" @updateOrder="readOrders" ></Mainpane>
   </div>
-  <OrderPlaced v-else></OrderPlaced>
+  <OrderPlaced v-else @newOrder = "newOrder"></OrderPlaced>
 </template>
 
 <script setup>
@@ -52,6 +52,9 @@ function sendOrders() {
     }
   })
   console.log(result)
+}
+function newOrder() {
+  sent.value = false;
 }
 </script>
 
